@@ -49,7 +49,7 @@
 	 labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
 	 wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
 	 opacityArea: 0.07, 	//The opacity of the area of the blob
-	 dotRadius: 2, 			//The size of the colored circles of each blob
+	 dotRadius: 1.5, 			//The size of the colored circles of each blob
 	 opacityCircles: 0.1, 	//The opacity of the circles of each blob
 	 strokeWidth: 0.2, 		//The width of the stroke around each blob
 	 roundStrokes: false,	//If true the area and stroke will follow a round path (cardinal-closed)
@@ -196,31 +196,44 @@
 		.on('mouseover', function (d,i){
 			//Dim all blobs
 			d3.selectAll(".radarArea")
-				.transition().duration(200)
+				.transition().duration(50)
 				.style("fill-opacity", 0.07); 
 			//Bring back the hovered over blob
 			d3.select(this)
-				.transition().duration(200)
-				.style("fill-opacity", 0.7);
+				.transition().duration(50)
+				.style("fill-opacity", 0.5);
 			
-			d3.selectAll(".radarCircle")
-				.attr("r", 1);
-
+			d3.select(blobStrokes[0][i])
+				.style("stroke-width", 3);
+			
+			d3.select(blobCircles[i][0])
+				.attr("r", 4);
+			d3.select(blobCircles[i][1])
+				.attr("r", 4);
+			d3.select(blobCircles[i][2])
+				.attr("r", 4);
+			d3.select(blobCircles[i][3])
+				.attr("r", 4);
+			d3.select(blobCircles[i][4])
+				.attr("r", 4);
+			d3.select(blobCircles[i][5])
+				.attr("r", 4);
 		})
 		.on('mouseout', function(){
 			//Bring back all blobs
 			d3.selectAll(".radarArea")
-				.transition().duration(200)
+				.transition().duration(50)
 				.style("fill-opacity", cfg.opacityArea);
 
 			// dot size go to original
 			d3.selectAll(".radarCircle")
 				.attr("r", cfg.dotRadius);
-
+			d3.selectAll(".radarStroke")
+				.style("stroke-width", cfg.strokeWidth + "px");
 		});
 		
 	// Create the outlines	
-	blobWrapper.append("path")
+	var blobStrokes = blobWrapper.append("path")
 		.attr("class", "radarStroke")
 		.attr("d", function(d,i) { return radarLine(d); })
 		.style("stroke-width", cfg.strokeWidth + "px")
@@ -229,7 +242,7 @@
 		.style("filter" , "url(#glow)");		
 	
 	//Append the circles
-	blobWrapper.selectAll(".radarCircle")
+	var blobCircles = blobWrapper.selectAll(".radarCircle")
 		.data(function(d,i) { return d; })
 		.enter().append("circle")
 		.attr("class", "radarCircle")
@@ -254,7 +267,7 @@
 		.data(function(d,i) { return d; })
 		.enter().append("circle")
 		.attr("class", "radarInvisibleCircle")
-		.attr("r", cfg.dotRadius*2)
+		.attr("r", cfg.dotRadius*3)
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", "none")
