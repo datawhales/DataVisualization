@@ -11,6 +11,48 @@
 <div id="my_dataviz"></div>
 
 <script>
+  d3.button = function() {
+
+var padding = 10,
+    radius = 3,
+    stdDeviation = 5,
+    offsetX = 2,
+    offsetY = 4;
+
+function my(selection) {
+    
+    selection.each(function(d, i) {
+    var g = d3.select(this)
+        .attr("id", "d3-button" + i)
+        .attr("transform", "translate(" + d.x + "," + d.y + ")");
+
+    var text = g.append("text").text(d.label);
+    var bbox = text.node().getBBox();
+    var rect = g.insert("rect", "text")
+        .attr("x", bbox.x - padding)
+        .attr("y", bbox.y - padding)
+        .attr("width", bbox.width + 2 * padding)
+        .attr("height", bbox.height + 2 * padding)
+        .attr("rx", radius)
+        .attr("ry", radius)
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout)
+        .on("click", click)
+      
+  });
+    
+}
+
+function mouseover() { d3.select(this.parentNode).select("rect").classed("active", true) }
+function mouseout() { d3.select(this.parentNode).select("rect").classed("active", false) }
+function click(d, i) { d.function(); }
+
+return my;
+  
+}
+</script>
+
+<script>
 
     // set the dimensions and margins of the graph
     var margin = {top: 0, right: 0, bottom: 0, left: 300},
@@ -19,14 +61,48 @@
         innerRadius = 250,
         // outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
         outerRadius = 400;
+
+    
+
     // append the svg object
     var svg = d3.select("#my_dataviz")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        // .style("background", "#a7b9b9")
       .append("g")
         .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
     
+    var button_data = [{label: "Acousticness", csv_label: "acousticness", x: -850, y: -400},
+                        {label: "Danceability", csv_label: "danceability", x: -850, y: -350},
+                        {label: "Energy", csv_label: "energy", x: -850, y: -300},
+                        {label: "Tempo", csv_label: "tempo", x: -850, y: -250},
+                        {label: "Valence", csv_label: "valence", x: -850, y: -200}
+                        ];
+
+    var button = d3.button();
+
+    var buttons = svg.selectAll(".button")
+        .data(button_data)
+        .enter()
+        .append("g")
+        .attr("class", "button")
+        .style("fill", "#eee")
+        .call(button)
+        .on("mouseover", function() {
+          d3.select(this)
+            .transition().duration(50)
+            .style("fill", "skyblue");
+        })
+        .on("mouseout", function() {
+          d3.select(this)
+            .transition().duration(50)
+            .style("fill", "#eee");
+        })
+        
+
+
+
     // d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum.csv", function(data) {
     d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/1stranksongs.csv", function(data) {
       // Scales
@@ -39,7 +115,7 @@
           .domain([0, 100]); // Domain of Y is from 0 to the max seen in the data
     
       // Add the bars
-      svg.append("g")
+      var bars = svg.append("g")
         .selectAll("path")
         .data(data)
         .enter()
@@ -52,7 +128,7 @@
                 .style("fill", "red");
             
             const percentage = parseInt(100 * (d['tempo']))
-            const title ='The title is "' + d.Name + '"'
+            const title = d.Name
             const artist = d['Artists'];
 
             centerlabel
@@ -61,10 +137,10 @@
                 .text(percentage + "%");
             centerlabel
                 .select(".title")
-                .text(ti);
+                .text("\"" + title + "\"");
             centerlabel
                 .select(".artist")
-                .text(artist);
+                .text("by " + artist);
 
           })
           .on('mouseout', function() {
@@ -83,7 +159,28 @@
               .padAngle(0.01)
               .padRadius(innerRadius))
       
-    //   // center text
+        buttons
+          .on("click", function(button_d, button_i) {
+            d3.select(this)
+              .style("fill", "red");
+
+            bars
+            .transition().duration(1500)
+            .attr("d", d3.arc()
+            .innerRadius(innerRadius)
+              .outerRadius(function(d) { return y(100* d[button_d.csv_label]); })
+              .startAngle(function(d) { return x(d.Name); })
+              .endAngle(function(d) { return x(d.Name) + x.bandwidth(); })
+              .padAngle(0.01)
+              .padRadius(innerRadius));
+          })
+
+        
+        
+
+
+    
+    // center text
       const centerlabel = svg
         .append("text")
         .attr("text-anchor", "middle")
