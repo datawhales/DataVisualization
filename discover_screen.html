@@ -73,11 +73,11 @@ return my;
       .append("g")
         .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
     
-    var button_data = [{label: "Acousticness", csv_label: "acousticness", x: -850, y: -400},
-                        {label: "Danceability", csv_label: "danceability", x: -850, y: -350},
-                        {label: "Energy", csv_label: "energy", x: -850, y: -300},
-                        {label: "Tempo", csv_label: "tempo", x: -850, y: -250},
-                        {label: "Valence", csv_label: "valence", x: -850, y: -200}
+    var button_data = [{label: "Acousticness", csv_label: "acousticness", color: "purple", x: -850, y: -400},
+                        {label: "Danceability", csv_label: "danceability", color: "orange", x: -850, y: -350},
+                        {label: "Energy", csv_label: "energy", color: "skyblue", x: -850, y: -300},
+                        {label: "Tempo", csv_label: "tempo", color: "green", x: -850, y: -250},
+                        {label: "Valence", csv_label: "valence", color: "blue", x: -850, y: -200}
                         ];
 
     var button = d3.button();
@@ -93,6 +93,7 @@ return my;
           d3.select(this)
             .transition().duration(50)
             .style("fill", "skyblue");
+            
         })
         .on("mouseout", function() {
           d3.select(this)
@@ -120,13 +121,14 @@ return my;
         .data(data)
         .enter()
         .append("path")
-          .attr("class", "firstbars")
+          // .attr("class", "firstbars")
           .attr("fill", "#8597d0")
           .on('mouseover', function (d,i) {
             d3.select(this)
                 .transition().duration(50)
                 .style("fill", "red");
-            
+                
+
             const percentage = parseInt(100 * (d['tempo']))
             const title = d.Name
             const artist = d['Artists'];
@@ -146,7 +148,8 @@ return my;
           .on('mouseout', function() {
             d3.select(this)
                 .transition().duration(50)
-                .style("fill", "#8597d0");
+                .style("fill", "#8597d0")
+                .style("stroke", null);
 
             centerlabel
                 .style("visibility", "hidden");
@@ -158,14 +161,30 @@ return my;
               .endAngle(function(d) { return x(d.Name) + x.bandwidth(); })
               .padAngle(0.01)
               .padRadius(innerRadius))
-      
-        buttons
-          .on("click", function(button_d, button_i) {
-            d3.select(this)
-              .style("fill", "red");
 
-            bars
+      // Add the labels
+      var songlabels = svg.append("g")
+          .selectAll("g")
+          .data(data)
+          .enter()
+          .append("g")
+            .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
+          .append("text")
+            .text(function(d){return(d.Name)})
+            .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+            .style("font-size", "11px")
+            .attr("alignment-baseline", "middle")
+
+
+      buttons
+        .on("click", function(button_d, button_i) {
+          d3.select(this)
+            .style("fill", "red");
+
+          bars
             .transition().duration(1500)
+            .style("fill", button_d.color)
             .attr("d", d3.arc()
             .innerRadius(innerRadius)
               .outerRadius(function(d) { return y(100* d[button_d.csv_label]); })
@@ -173,14 +192,64 @@ return my;
               .endAngle(function(d) { return x(d.Name) + x.bandwidth(); })
               .padAngle(0.01)
               .padRadius(innerRadius));
+
+
+          songlabels
+            .transition().duration(1500)
+            .attr("transform", function(d) { return "translate(" + (y(100 * d[button_d.csv_label])-150)+ ",0)"; })
+            
+          bars
+            .on('mouseover', function (d,i) {
+              d3.select(this)
+                .transition().duration(50)
+                .style("fill", "red")
+                .style("fill-opacity", 1)
+                /////
+                .attr("d", d3.arc()
+              .innerRadius(innerRadius)
+              .outerRadius(function(d) { return y(120* d[button_d.csv_label]); })
+              .startAngle(function(d) { return x(d.Name) - 0.5 * x.bandwidth(); })
+              .endAngle(function(d) { return x(d.Name) + 1.5 * x.bandwidth(); })
+              .padAngle(0.01)
+              .padRadius(innerRadius));
+              /////
+            
+            const percentage = parseInt(100 * (d[button_d.csv_label]))
+            const title = d.Name
+            const artist = d['Artists'];
+
+            centerlabel
+                .style("visibility", null)
+                .select(".percentage")
+                .text(percentage + "%");
+            centerlabel
+                .select(".title")
+                .text("\"" + title + "\"");
+            centerlabel
+                .select(".artist")
+                .text("by " + artist);
+
+            })
+          .on('mouseout', function() {
+            d3.select(this)
+                .transition().duration(50)
+                .style("fill", button_d.color)
+                .attr("d", d3.arc()
+            .innerRadius(innerRadius)
+              .outerRadius(function(d) { return y(100* d[button_d.csv_label]); })
+              .startAngle(function(d) { return x(d.Name); })
+              .endAngle(function(d) { return x(d.Name) + x.bandwidth(); })
+              .padAngle(0.01)
+              .padRadius(innerRadius));
+
+            centerlabel
+                .style("visibility", "hidden");
           })
+        })
 
         
-        
-
-
-    
-    // center text
+      
+      // center text
       const centerlabel = svg
         .append("text")
         .attr("text-anchor", "middle")
@@ -220,22 +289,6 @@ return my;
         .attr("y", 0)
         .attr("dy", "1.5em")
         .text("is the percentage of tempo");
-
-
-      // Add the labels
-      svg.append("g")
-          .selectAll("g")
-          .data(data)
-          .enter()
-          .append("g")
-            .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
-          .append("text")
-            .text(function(d){return(d.Name)})
-            .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
-            .style("font-size", "11px")
-            .attr("alignment-baseline", "middle")
-    
     });
     
     </script>
