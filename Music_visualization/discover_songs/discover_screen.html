@@ -91,13 +91,11 @@ return my;
         .call(button)
         .on("mouseover", function() {
           d3.select(this)
-            .transition().duration(50)
             .style("fill", "skyblue");
             
         })
         .on("mouseout", function() {
           d3.select(this)
-            .transition().duration(50)
             .style("fill", "#eee");
         })
         
@@ -124,9 +122,12 @@ return my;
           // .attr("class", "firstbars")
           .attr("fill", "#8597d0")
           .on('mouseover', function (d,i) {
+            bars
+              .style("fill-opacity", 0.5);
+
             d3.select(this)
-                .transition().duration(50)
-                .style("fill", "red");
+                .style("fill", "red")
+                .style("fill-opacity", 1);
                 
 
             const percentage = parseInt(100 * (d['tempo']))
@@ -146,9 +147,12 @@ return my;
 
           })
           .on('mouseout', function() {
+            bars
+              .style("fill-opacity", 1);
+
             d3.select(this)
-                .transition().duration(50)
                 .style("fill", "#8597d0")
+                .style("fill-opacity", 1)
                 .style("stroke", null);
 
             centerlabel
@@ -200,8 +204,10 @@ return my;
             
           bars
             .on('mouseover', function (d,i) {
+              bars
+                .style("fill-opacity", 0.5);
+
               d3.select(this)
-                .transition().duration(50)
                 .style("fill", "red")
                 .style("fill-opacity", 1)
                 /////
@@ -231,8 +237,10 @@ return my;
 
             })
           .on('mouseout', function() {
+            bars
+              .style("fill-opacity", 1);
+
             d3.select(this)
-                .transition().duration(50)
                 .style("fill", button_d.color)
                 .attr("d", d3.arc()
             .innerRadius(innerRadius)

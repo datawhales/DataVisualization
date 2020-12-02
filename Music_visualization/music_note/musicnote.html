@@ -55,7 +55,9 @@ function ellipse_over(evt) {
     var ellipse = evt.target;
     var currentStroke = ellipse.getAttribute("stroke");
     if (currentStroke == "none")
-        ellipse.setAttribute("stroke", "blue");
+        ellipse.setAttribute("stroke", "blue")
+        ellipse.setAttribute("rx", 288)
+        ellipse.setAttribute("ry", 240);
 }
 
 function ellipse_out(evt) {
@@ -63,20 +65,24 @@ function ellipse_out(evt) {
     var currentStroke = ellipse.getAttribute("stroke");
     if (currentStroke != "none")
         ellipse.setAttribute("stroke", "none");
+        ellipse.setAttribute("rx", 240)
+        ellipse.setAttribute("ry", 200);
 }
 
 function circle_over(evt) {
     var circle = evt.target;
     var currentStroke = circle.getAttribute("stroke");
     if (currentStroke == "none")
-        circle.setAttribute("stroke", "blue");
+        circle.setAttribute("stroke", "blue")
+        circle.setAttribute("r", 70 * 1.4);
 }
 
 function circle_out(evt) {
     var circle = evt.target;
     var currentStroke = circle.getAttribute("stroke");
     if (currentStroke != "none")
-        circle.setAttribute("stroke", "none");
+        circle.setAttribute("stroke", "none")
+        circle.setAttribute("r", 70);
 }
 
 
