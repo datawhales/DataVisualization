@@ -293,26 +293,7 @@ return my;
               .endAngle(function(d) { return x(d.Name) + x.bandwidth(); })
               .padAngle(0.01)
               .padRadius(innerRadius))
-
-           // Add the labels
-           songlabels
-            .data(data)
-            .enter()
-            .append("g")
-              // .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-              // .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
-            .append("text")
-              
-          songlabels
-            .attr("text-anchor", function(d) { return (x(d.Name) +  x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-            .attr("transform", function(d) { return "rotate(" + (( x(d.Name) +  x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + ( y(100 * d['tempo'])+10) + ",0)"; })
-            
-          songlabels
-            
-            .text(function(d){return(d.Name)})
-              .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
-              .style("font-size", "11px")
-              .attr("alignment-baseline", "middle")
+        
           
           ////////////////////////////////////
           //////// sorting_buttons 시작 ///////
@@ -333,7 +314,7 @@ return my;
           // Scales
             x
             .domain(data.map(function(d) { return d.Name; })); // The domain of the X axis is the list of states.
-         
+            
           bars
             
             .data(data)
@@ -413,13 +394,11 @@ return my;
             .data(data)
             .enter()
             .append("g")
-              // .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-              // .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
             .append("text")
               
           songlabels
             .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
+            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d[button_d.csv_label])+10) + ",0)"; })
             
           songlabels
             .text(function(d){return(d.Name)})
