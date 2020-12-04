@@ -210,8 +210,9 @@ return my;
           .enter()
           .append("g")
             .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+10) + ",0)"; })
+            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d['tempo'])+20) + ",0)"; })
           .append("text")
+          .attr("class", "songtitles")
             .text(function(d){return(d.Name)})
             .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
             .style("font-size", "11px")
@@ -294,6 +295,23 @@ return my;
               .padAngle(0.01)
               .padRadius(innerRadius))
         
+          svg.selectAll(".songtitles").remove();
+          // songlabels.remove();
+
+          svg
+            .append("g")
+            .selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+              .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+              .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d[button_d.csv_label]) + 10) + ",0)"; })
+            .append("text")
+            .attr("class", "songtitles")
+              .text(function(d){return(d.Name)})
+              .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+              .style("font-size", "11px")
+              .attr("alignment-baseline", "middle")
           
           ////////////////////////////////////
           //////// sorting_buttons 시작 ///////
@@ -302,6 +320,7 @@ return my;
             .on("click", function(sorting_d, sorting_i) {
               bars.exit().remove();
               songlabels.exit().remove();
+              svg.selectAll(".songtitles").remove();
 
               data.sort((a,b) => {
                 return d3.descending(a[button_d.csv_label], b[button_d.csv_label])
@@ -390,18 +409,17 @@ return my;
 
 
           // Add the labels
-          songlabels
+          svg
+            .append("g")
+            .selectAll("g")
             .data(data)
             .enter()
             .append("g")
+              .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+              .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d[button_d.csv_label]) + 10) + ",0)"; })
             .append("text")
-              
-          songlabels
-            .attr("text-anchor", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-            .attr("transform", function(d) { return "rotate(" + ((x(d.Name) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(100 * d[button_d.csv_label])+10) + ",0)"; })
-            
-          songlabels
-            .text(function(d){return(d.Name)})
+            .attr("class", "songtitles")
+              .text(function(d){return(d.Name)})
               .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
               .style("font-size", "11px")
               .attr("alignment-baseline", "middle")
