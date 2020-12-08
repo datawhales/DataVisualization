@@ -213,7 +213,7 @@ return my;
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .style("background", "#a7b9b9")
+        // .style("background", "#a7b9b9")
       .append("g")
         .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
     
@@ -270,10 +270,11 @@ return my;
 
 
     // csv 파일 읽기
-    // d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/songs500.csv", function(data) {
-    d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/1stranksongs.csv", function(data) {
-      // data = data.slice(0,242)
+    d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/songs_clusters.csv", function(data) {
+    // d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/1stranksongs.csv", function(data) {
       // 기본적으로 음반 발행 년도로 sorting
+      data = data.slice(0,350)
+
       data.sort((a,b) => {
         return d3.descending(a['Year'], b['Year'])
       });
@@ -367,7 +368,7 @@ return my;
           .attr("class", "songtitles")
             .text(function(d){return(d.Name)})
             .attr("transform", function(d) { return (x(d.Name) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
-            .style("font-size", "11px")
+            .style("font-size", "6px")
             .attr("alignment-baseline", "middle")
 
 
@@ -379,7 +380,7 @@ return my;
             .on("click", function(sorting_d) {
               bars.exit().remove();
               songlabels.exit().remove();
-              svg.selectAll(".songtitles").remove();
+              // svg.selectAll(".songtitles").remove();
 
               data.sort((a,b) => {
                 return d3.descending(a[sorting_d.csv_label], b[sorting_d.csv_label])
@@ -467,7 +468,7 @@ return my;
               .padRadius(innerRadius))
 
 
-          // Add the labels
+          // // Add the labels
           svg
             .append("g")
             .selectAll("g")
