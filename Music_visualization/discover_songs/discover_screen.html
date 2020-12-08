@@ -271,8 +271,7 @@ return my;
 
     // csv 파일 읽기
     // d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/songs500.csv", function(data) {
-    d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/1stranksongs_percent.csv", function(data) {
-      // data = data.slice(0,242)
+    d3.csv("https://raw.githubusercontent.com/datawhales/DataVisualization/master/1stranksongs.csv", function(data) {
       // 기본적으로 음반 발행 년도로 sorting
       data.sort((a,b) => {
         return d3.descending(a['Year'], b['Year'])
@@ -316,7 +315,8 @@ return my;
                 .padAngle(0.01)
                 .padRadius(innerRadius));
               
-            const percentage = parseInt(100 * d['tempo'])
+            const percentage = 100 * d['tempo']
+
             const title = d.Name
             const artist = d['Artists']
             const year = d['Year'];
@@ -324,7 +324,7 @@ return my;
             centerlabel
                 .style("visibility", null)
                 .select(".percentage")
-                .text(percentage + "%");
+                .text(percentage.toFixed(2) + "%");
             centerlabel
                 .select(".title")
                 .text("\"" + title + "\"");
@@ -413,7 +413,7 @@ return my;
                 .padAngle(0.01)
                 .padRadius(innerRadius));
               
-              const percentage = parseInt(100 * d['tempo'])
+              const percentage = 100 * d['tempo']
               const title = d.Name
               const artist = d['Artists']
               const year = d['Year'];
@@ -421,7 +421,7 @@ return my;
               centerlabel
                 .style("visibility", null)
                 .select(".percentage")
-                .text(percentage + "%");
+                .text(percentage.toFixed(2) + "%");
               centerlabel
                 .select(".title")
                 .text("\"" + title + "\"");
@@ -511,7 +511,7 @@ return my;
                 .padAngle(0.01)
                 .padRadius(innerRadius));
               
-              const percentage = parseInt(100 * d[button_d.csv_label])
+              const percentage = 100 * d[button_d.csv_label]
               const title = d.Name
               const artist = d['Artists']
               const year = d['Year'];
@@ -519,7 +519,7 @@ return my;
               centerlabel
                 .style("visibility", null)
                 .select(".percentage")
-                .text(percentage + "%");
+                .text(percentage.toFixed(2) + "%");
               centerlabel
                 .select(".title")
                 .text("\"" + title + "\"");
@@ -627,7 +627,7 @@ return my;
                 .padAngle(0.01)
                 .padRadius(innerRadius));
               
-              const percentage = parseInt(100 * d[button_d.csv_label])
+              const percentage = 100 * d[button_d.csv_label]
               const title = d.Name
               const artist = d['Artists']
               const year = d['Year'];
@@ -635,7 +635,7 @@ return my;
               centerlabel
                 .style("visibility", null)
                 .select(".percentage")
-                .text(percentage + "%");
+                .text(percentage.toFixed(2) + "%");
               centerlabel
                 .select(".title")
                 .text("\"" + title + "\"");
@@ -697,8 +697,9 @@ return my;
               .style("font-size", "11px")
               .attr("alignment-baseline", "middle")
 
-
-            // Add Top 10 songs table
+            ////////////////////////////
+            // Add Top 10 songs table //
+            ////////////////////////////
               var tabulate = function (data,columns) {
                 var table = d3.select("#my_table")
                               .append('table')
@@ -731,12 +732,30 @@ return my;
                     
                       return table;
               }
-            
-              
+
               var columns = ['Name', 'Year', 'acousticness','danceability']
                 data2 = data.slice(0, 10)
               tabulate(data2,columns)
               d3.select("#table_title").style("visibility", null);
+
+              ////////////////////////////////
+              // Add Top 10 songs table end //
+              ////////////////////////////////
+
+              // set the dimensions and margins of the graph
+          var margin2 = {top: 0, right: 0, bottom: 0, left: 600},
+            width2 = 1500 - margin2.left - margin2.right,
+            height2 = 1000 - margin2.top - margin2.bottom;
+            
+                  // append the svg object
+          var svg2 = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width2 + margin2.left + margin2.right)
+            .attr("height", height2 + margin2.top + margin2.bottom)
+            .style("background", "#999faa")
+            .append("g")
+            .attr("transform", "translate(" + (width2 / 2 + margin2.left) + "," + (height2 / 2 + margin2.top) + ")");
+
               
           })
           ////////////////////////////////////
