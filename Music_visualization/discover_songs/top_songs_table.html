@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <style>
 .song-index-table {
-    width: 30%;
-    table-layout: fixed;
+    width: 100%;
+    /* table-layout: fixed; */
     border-collapse: collapse;
 }
-.song-index-table__cell--rank {
-    line-height: 18px;
-    font-family: Helvetica,AppleSDGothic,"Apple SD Gothic Neo",AppleGothic,Arial,Tahoma;
-    font-size: 16px;
-    font-weight: 300;
-    font-style: italic;
-    text-align: center;
-    color: #8b8b8b;
-}
-.song-index-table__cell:first-child {
-    border-left: solid 1px #e6e6e6;
-}
+
 img {
-  width: 70px;
-  height: 70px;
+  width: 85px;
+  height: 85px;
   object-fit: cover;
 }
 thead {
@@ -38,40 +27,7 @@ tr {
     border-bottom-color: inherit;
     border-left-color: inherit;
 }
-.song-index-table__cell {
-    background-color: #fff;
-    border-top: solid 1px #e6e6e6;
-        border-top-width: 1px;
-        border-top-style: solid;
-        border-top-color: rgb(230, 230, 230);
-    border-bottom: solid 1px #e6e6e6;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        border-bottom-color: rgb(230, 230, 230);
-    height: 60px;
-    vertical-align: middle;
-}
-.song-index-table__cell--image {
-    font-size: 0;
-}
-.song-index-table__cell--song {
-    padding-left: 6px;
-    line-height: 15px;
-    font-size: 12px;
-    text-align: left;
-    color: #b6b6b6;
-}
-.song-index-table__cell--year {
-    padding-left: 1px;
-    line-height: 14px;
-    font-family: Helvetica,AppleSDGothic,"Apple SD Gothic Neo",AppleGothic,Arial,Tahoma;
-    font-size: 12px;
-    text-align: center;
-    color: #b6b6b6;
-}
-.song-index-table__name {
-    color: black;
-}
+
 td {
     display: table-cell;
     vertical-align: inherit;
@@ -89,6 +45,57 @@ table {
     -webkit-border-horizontal-spacing: 2px;
     -webkit-border-vertical-spacing: 2px;
 }
+.song-index-table__cell {
+    background-color: #fff;
+    border-top: solid 1px #e6e6e6;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: rgb(230, 230, 230);
+    border-bottom: solid 1px #e6e6e6;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(230, 230, 230);
+    height: 60px;
+    vertical-align: middle;
+}
+.song-index-table__cell:first-child {
+    border-left: solid 1px #e6e6e6;
+}
+.song-index-table__cell--rank {
+    line-height: 18px;
+    font-family: Helvetica,AppleSDGothic,"Apple SD Gothic Neo",AppleGothic,Arial,Tahoma;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    text-align: center;
+    color: #8b8b8b;
+    width: 60px;
+}
+.song-index-table__cell--image {
+    font-size: 0;
+    width: 60px;
+    height: 100px;
+}
+.song-index-table__cell--song {
+    padding-left: 6px;
+    line-height: 15px;
+    font-size: 12px;
+    text-align: left;
+    color: #b6b6b6;
+    width: 100px;
+}
+.song-index-table__cell--year {
+    padding-left: 1px;
+    line-height: 14px;
+    font-family: Helvetica,AppleSDGothic,"Apple SD Gothic Neo",AppleGothic,Arial,Tahoma;
+    font-size: 12px;
+    text-align: center;
+    color: #b6b6b6;
+    width: 60px;
+}
+.song-index-table__name {
+    color: black;
+}
 /* small, div, p, span, button {
     font-family: Helvetica,"Malgun Gothic","Apple SD Gothic Neo",AppleGothic,Dotum,Arial,Tahoma;
 } */
@@ -102,9 +109,37 @@ html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
+
+
+.l-champion-index-content--side {
+    float: right;
+    width: 475px;
+    background-color: #f9f9fa;
+    border: solid 1px #e9eff4;
+    border-top-color: rgb(233, 239, 244);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(233, 239, 244);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(233, 239, 244);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(233, 239, 244);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    box-sizing: border-box;
+}
+
 </style>
 <html>
 <body>
+<div class="l-champion-index-content--side">
 <table class="song-index-table tabItems">
 <thead>
     <tr>Top 5 Songs</tr>
@@ -113,7 +148,7 @@ html {
     <tr>
         <td class="song-index-table__cell song-index-table__cell--rank">1st</td>
         <td class="song-index-table__cell song-index-table__cell--image">
-            <img class="album_images" src="https://user-images.githubusercontent.com/67447280/101626867-e056fa00-3a60-11eb-99f6-f1319fa5931b.jpg"></img>
+            <img class="album_images" src="https://user-images.githubusercontent.com/67447280/101626867-e056fa00-3a60-11eb-99f6-f1319fa5931b.jpg" width=90></img>
         </td>
         <td class="song-index-table__cell song-index-table__cell--song">
             <div class="song-index-table__name">When I Was Your Man</div>
@@ -166,7 +201,7 @@ html {
         <td class="song-index-table__cell song-index-table__cell--year">2016</td>
     </tr>
 </tbody>
-<tbody class="tabItem song-trend-Danceability" style>
+<tbody class="tabItem song-trend-Danceability" style="display: none;">
     <tr>
         <td class="song-index-table__cell song-index-table__cell--rank">1st</td>
         <td class="song-index-table__cell song-index-table__cell--image">
@@ -280,7 +315,7 @@ html {
         <td class="song-index-table__cell song-index-table__cell--year">2012</td>
     </tr>
 </tbody>
-<tbody class="tabItem song-trend-Tempo" style="display: none;">
+<tbody class="tabItem song-trend-Tempo" style>
     <tr>
         <td class="song-index-table__cell song-index-table__cell--rank">1st</td>
         <td class="song-index-table__cell song-index-table__cell--image">
@@ -395,6 +430,6 @@ html {
     </tr>
 </tbody>
 </table>
-
+</div>
 </body>
 </html>
