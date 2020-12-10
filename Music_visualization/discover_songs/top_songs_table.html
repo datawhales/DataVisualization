@@ -11,10 +11,7 @@ img {
   height: 85px;
   object-fit: cover;
 }
-thead {
-    display: table-header-group;
-    vertical-align: middle;
-}
+
 tbody {
     vertical-align: middle;
 }
@@ -44,6 +41,11 @@ table {
     border-spacing: 2px;
     -webkit-border-horizontal-spacing: 2px;
     -webkit-border-vertical-spacing: 2px;
+}
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    line-height: 100px;
 }
 .song-index-table__cell {
     background-color: #fff;
@@ -136,13 +138,23 @@ html {
     box-sizing: border-box;
 }
 
+.l-song-index-content {
+    width: 1080px;
+    margin: 15px auto 0;
+    margin-top: 15px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+}
+
 </style>
 <html>
 <body>
+<div class="l-song-index-content">
 <div class="l-song-index-content--side">
 <table class="song-index-table tabItems">
 <thead>
-    <tr>Top 5 Songs</tr>
+    <tr style="font-size: 20px;">Top 5 Songs For Selected Feature</tr>
 </thead>
 <tbody class="tabItem song-trend-Acousticness" style="display: none">
     <tr>
@@ -430,6 +442,7 @@ html {
     </tr>
 </tbody>
 </table>
+</div>
 </div>
 </body>
 </html>
